@@ -1,7 +1,9 @@
 package com.example.jpa101.board;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.example.jpa101.board.domain.BoardEntity;
 import com.example.jpa101.board.domain.CommentEntity;
@@ -40,12 +42,24 @@ public class BoardController {
                 .text2("text2")
                 .build();
 
-
+        /*
         BoardEntity board1 = boardRepository.save(board);
         comment.setBoard(board1);
         CommentEntity comment1 = commentRepository.save(comment);
         board.addComment(comment);
+        */
 
+        board.addComment(comment);
+        BoardEntity board11 = boardRepository.save(board);
+
+
+        List<BoardEntity> all = boardRepository.findAll();
+        List<BoardDto> list = all
+                .stream()
+                .map(BoardDto::new)
+                .collect(Collectors.toList());
+
+        System.out.println("list = " + list);
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
 }

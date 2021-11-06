@@ -1,5 +1,6 @@
 package com.example.jpa101.board.domain;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -31,14 +32,15 @@ public class BoardEntity {
     @Column
     private String title;
 
-    @OneToMany(mappedBy = "board")
+    @OneToMany(mappedBy = "board", cascade= CascadeType.ALL)
     @Builder.Default
     private List<CommentEntity> comments = new ArrayList<>();;
 
     public void addComment(CommentEntity comment) {
+        comment.setBoard(this);
         this.comments.add(comment);
-        if (comment.getBoard() == this) {
-            comment.setBoard(this);
-        }
+//        if (comment.getBoard() == this) {
+
+//        }
     }
 }

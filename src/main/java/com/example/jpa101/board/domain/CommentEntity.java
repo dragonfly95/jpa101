@@ -36,7 +36,7 @@ public class CommentEntity {
     private String text2;
 
     @ManyToOne
-    @JoinColumn(name = "board_id", insertable = false, updatable = false)
+    @JoinColumn(name = "board_id")
     private BoardEntity board;
 
     public void setBoard(BoardEntity board) {
