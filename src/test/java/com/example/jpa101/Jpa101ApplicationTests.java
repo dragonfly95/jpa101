@@ -1,6 +1,5 @@
 package com.example.jpa101;
 
-import com.example.jpa101.board.BoardDto;
 
 import com.example.jpa101.board.domain.BoardEntity;
 import com.example.jpa101.board.domain.CommentEntity;

@@ -7,8 +7,11 @@ import java.util.stream.Collectors;
 
 import com.example.jpa101.board.domain.BoardEntity;
 import com.example.jpa101.board.domain.CommentEntity;
+import com.example.jpa101.board.domain.User;
+import com.example.jpa101.board.dto.BoardDto;
 import com.example.jpa101.board.repository.BoardRepository;
 import com.example.jpa101.board.repository.CommentRepository;
+import com.example.jpa101.board.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +28,17 @@ public class BoardController {
 
     @Autowired
     private CommentRepository commentRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @RequestMapping("test")
+    public ResponseEntity test() {
+        User userA = userRepository.save(new User("UserA"));
+        userA.changeName("UserB");
+        userRepository.save(userA);
+        return ResponseEntity.ok().body(userA);
+    }
 
     @RequestMapping("")
     private ResponseEntity<Map<String, String>> hello() {

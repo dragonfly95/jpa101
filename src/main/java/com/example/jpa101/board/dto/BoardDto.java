@@ -1,4 +1,4 @@
-package com.example.jpa101.board;
+package com.example.jpa101.board.dto;
 
 import com.example.jpa101.board.domain.BoardEntity;
 import com.example.jpa101.board.domain.CommentEntity;
