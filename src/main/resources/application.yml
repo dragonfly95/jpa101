@@ -1,25 +1,38 @@
 
 
 spring:
-  mvc:
-    static-path-pattern: /static/**
-
-    view:
-      prefix: /WEB-INF/jsp/
-      suffix: .jsp
-
-
-  # ===============================
-  # = DATA SOURCE (MARIADB)
-  # ===============================
+  h2:
+    console:
+      enabled: true
   datasource:
-    url: jdbc:log4jdbc:mysql://localhost:3306/board_db?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
-    username: root
-    password: 1q2w3e4r5t
-    # driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:log4jdbc:h2:mem:testdb
+    username: sa
+    password:
+  #    driverClassName: org.h2.Driver
     driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
 
+
+#  mvc:
+#    static-path-pattern: /static/**
+#
+#    view:
+#      prefix: /WEB-INF/jsp/
+#      suffix: .jsp
+#
+#
+#  # ===============================
+#  # = DATA SOURCE (MARIADB)
+#  # ===============================
+#  datasource:
+#    url: jdbc:log4jdbc:mysql://localhost:3306/board_db?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
+#    username: root
+#    password: 1q2w3e4r5t
+#    # driver-class-name: com.mysql.cj.jdbc.Driver
+#    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+
   jpa:
+    spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
+
     generate-ddl: true
     hibernate:
       ddl-auto: update
