@@ -3,6 +3,7 @@ package com.example.jpa101.board;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.example.jpa101.board.domain.BoardEntity;
@@ -13,6 +14,9 @@ import com.example.jpa101.board.repository.BoardRepository;
 import com.example.jpa101.board.repository.CommentRepository;
 import com.example.jpa101.board.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,7 +45,7 @@ public class BoardController {
     }
 
     @RequestMapping("")
-    private ResponseEntity<Map<String, String>> hello() {
+    private ResponseEntity<BoardDto> hello() {
 
         Map<String, String> map = new HashMap<>();
         map.put("hello", "world");
@@ -66,14 +70,25 @@ public class BoardController {
         board.addComment(comment);
         BoardEntity board11 = boardRepository.save(board);
 
+        BoardDto boardDto = Optional.of(board11).map(BoardDto::new).get();
 
-        List<BoardEntity> all = boardRepository.findAll();
-        List<BoardDto> list = all
+        return new ResponseEntity<>(boardDto, HttpStatus.OK);
+    }
+
+    // @BatchSize(size = 100)
+    @RequestMapping("board_list")
+    public ResponseEntity board_list() {
+
+        PageRequest pageRequest = PageRequest.of(0,15);
+        Page<BoardEntity> all = boardRepository.findAll(pageRequest);
+        List<BoardDto> list = all.getContent()
                 .stream()
                 .map(BoardDto::new)
                 .collect(Collectors.toList());
 
         System.out.println("list = " + list);
-        return new ResponseEntity<>(map, HttpStatus.OK);
+
+        PageImpl pageImpl = new PageImpl(list, pageRequest, all.getTotalPages());
+        return ResponseEntity.ok().body(pageImpl);
     }
 }
