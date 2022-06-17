@@ -36,3 +36,9 @@ spring:
     generate-ddl: true
     hibernate:
       ddl-auto: update
+
+  data:
+    rest:
+      base-path: /api
+      default-page-size: 10
+      max-page-size: 10
